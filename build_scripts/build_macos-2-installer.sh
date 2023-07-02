@@ -87,7 +87,7 @@ ls -lh final_installer
 if [ "$NOTARIZE" == true ]; then
 	echo "Notarize $DMG_NAME on ci"
 	cd final_installer || exit 1
-  notarize-cli --file="$DMG_NAME" --bundle-id pl.cryptominesblockchain.blockchain \
+  notarize-cli --file="$DMG_NAME" --bundle-id pl.platinumblockchain.blockchain \
 	--username "$APPLE_NOTARIZE_USERNAME" --password "$APPLE_NOTARIZE_PASSWORD"
   echo "Notarization step complete"
 else
@@ -98,7 +98,7 @@ fi
 #
 # Ask for username and password. password should be an app specific password.
 # Generate app specific password https://support.apple.com/en-us/HT204397
-# xcrun altool --notarize-app -f Cryptomines-0.1.X.dmg --primary-bundle-id pl.cryptominesblockchain.blockchain -u username -p password
+# xcrun altool --notarize-app -f Cryptomines-0.1.X.dmg --primary-bundle-id pl.platinumblockchain.blockchain -u username -p password
 # xcrun altool --notarize-app; -should return REQUEST-ID, use it in next command
 #
 # Wait until following command return a success message".

@@ -662,7 +662,7 @@ class WalletNode:
                     default_peers_file_path="wallet/db/wallet_peers.dat",
                 ),
                 self.config["introducer_peer"],
-                self.config.get("dns_servers", ["dns-introducer.cryptominesblockchain.pl"]),
+                self.config.get("dns_servers", ["dns-introducer.platinumblockchain.pl"]),
                 self.config["peer_connect_interval"],
                 network_name,
                 None,

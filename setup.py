@@ -77,10 +77,10 @@ legacy_keyring_dependencies = [
 
 kwargs = dict(
     name="platinum-blockchain",
-    author="Kopalnie Krypto",
-    author_email="kontakt@kopalniekrypto.pl",
+    author="Matthew Crazy",
+    author_email="crazymathew29@gmail.com",
     description="Cryptomines blockchain full node, farmer, timelord, and wallet.",
-    url="https://cryptominesblockchain.pl/",
+    url="https://platinumblockchain.pl/",
     license="Apache License",
     python_requires=">=3.7, <4",
     keywords="cryptomines blockchain node",
