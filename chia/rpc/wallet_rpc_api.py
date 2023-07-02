@@ -434,8 +434,8 @@ class WalletRpcApi:
             return False, False
 
         config: Dict = load_config(new_root, "config.yaml")
-        farmer_target = config["farmer"].get("kop_target_address")
-        pool_target = config["pool"].get("kop_target_address")
+        farmer_target = config["farmer"].get("plat_target_address")
+        pool_target = config["pool"].get("plat_target_address")
         address_to_check: List[bytes32] = [decode_puzzle_hash(farmer_target), decode_puzzle_hash(pool_target)]
 
         found_addresses: Set[bytes32] = match_address_to_sk(sk, address_to_check, max_ph_to_search)
@@ -1824,7 +1824,7 @@ class WalletRpcApi:
         if cancel_all:
             asset_id = None
         else:
-            asset_id = request.get("asset_id", "kop")
+            asset_id = request.get("asset_id", "plat")
 
         start: int = 0
         end: int = start + batch_size
@@ -1832,7 +1832,7 @@ class WalletRpcApi:
         log.info(f"Start cancelling offers for  {'asset_id: ' + asset_id if asset_id is not None else 'all'} ...")
         # Traverse offers page by page
         key = None
-        if asset_id is not None and asset_id != "kop":
+        if asset_id is not None and asset_id != "plat":
             key = bytes32.from_hexstr(asset_id)
         while True:
             records: List[TradeRecord] = []
@@ -1945,7 +1945,7 @@ class WalletRpcApi:
                 AddressType.DID.hrp(self.service.config),
             ),
             "latest_coin": coin_state.coin.name().hex(),
-            "p2_address": encode_puzzle_hash(p2_puzzle.get_tree_hash(), AddressType.KOP.hrp(self.service.config)),
+            "p2_address": encode_puzzle_hash(p2_puzzle.get_tree_hash(), AddressType.PLAT.hrp(self.service.config)),
             "public_key": public_key.atom.hex(),
             "recovery_list_hash": recovery_list_hash.atom.hex(),
             "num_verification": num_verification.as_int(),
@@ -2871,7 +2871,7 @@ class WalletRpcApi:
             xch_coins = set([Coin.from_json_dict(xch_coin) for xch_coin in xch_coin_list])
         xch_change_target = request.get("xch_change_target", None)
         if xch_change_target is not None:
-            if xch_change_target[:2] == "kop":
+            if xch_change_target[:2] == "plat":
                 xch_change_ph = decode_puzzle_hash(xch_change_target)
             else:
                 xch_change_ph = bytes32(hexstr_to_bytes(xch_change_target))

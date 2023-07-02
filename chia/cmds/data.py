@@ -95,7 +95,7 @@ def create_fee_option() -> Callable[[FC], FC]:
     return click.option(
         "-m",
         "--fee",
-        help="Set the fees for the transaction, in KOP",
+        help="Set the fees for the transaction, in PLAT",
         type=str,
         default=None,
         show_default=True,
