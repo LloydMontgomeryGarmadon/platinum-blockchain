@@ -28,7 +28,7 @@ if ( $SUBMODULE_BRANCH ) {
 
 Push-Location
 try {
-    Set-Location cryptomines-blockchain-gui
+    Set-Location platinum-blockchain-gui
 
     $ErrorActionPreference = "SilentlyContinue"
     npm ci --loglevel=error
@@ -39,7 +39,7 @@ try {
     Write-Output ""
     Write-Output "Cryptomines blockchain Install-gui.ps1 completed."
     Write-Output ""
-    Write-Output "Type 'cd cryptomines-blockchain-gui' and then 'npm run electron' to start the GUI."
+    Write-Output "Type 'cd platinum-blockchain-gui' and then 'npm run electron' to start the GUI."
 } finally {
     Pop-Location
 }

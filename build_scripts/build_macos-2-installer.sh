@@ -32,12 +32,12 @@ if [ "$LAST_EXIT_CODE" -ne 0 ]; then
 	echo >&2 "pyinstaller failed!"
 	exit $LAST_EXIT_CODE
 fi
-cp -r dist/daemon ../cryptomines-blockchain-gui/packages/gui
+cp -r dist/daemon ../platinum-blockchain-gui/packages/gui
 
 # Change to the gui package
-cd ../cryptomines-blockchain-gui/packages/gui || exit 1
+cd ../platinum-blockchain-gui/packages/gui || exit 1
 
-# sets the version for cryptomines-blockchain in package.json
+# sets the version for platinum-blockchain in package.json
 brew install jq
 cp package.json package.json.orig
 jq --arg VER "$CRYPTOMINES_INSTALLER_VERSION" '.version=$VER' package.json > temp.json && mv temp.json package.json

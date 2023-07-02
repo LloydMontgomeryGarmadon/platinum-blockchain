@@ -9,9 +9,9 @@ cd npm_macos || exit 1
 npm ci
 PATH=$(npm bin):$PATH
 cd ../../ || exit 1
-git submodule update --init cryptomines-blockchain-gui
+git submodule update --init platinum-blockchain-gui
 
-cd ./cryptomines-blockchain-gui || exit 1
+cd ./platinum-blockchain-gui || exit 1
 echo "npm build"
 lerna clean -y
 npm ci
@@ -27,7 +27,7 @@ fi
 # Remove unused packages
 rm -rf node_modules
 
-# Other than `cryptomines-blockchain-gui/package/gui`, all other packages are no longer necessary after build.
+# Other than `platinum-blockchain-gui/package/gui`, all other packages are no longer necessary after build.
 # Since these unused packages make cache unnecessarily fat, unused packages should be removed.
 echo "Remove unused @cryptomines packages to make cache slim"
 ls -l packages

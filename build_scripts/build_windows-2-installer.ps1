@@ -21,9 +21,9 @@ $SPEC_FILE = (python -c 'import chia; print(chia.PYINSTALLER_SPEC_PATH)') -join 
 pyinstaller --log-level INFO $SPEC_FILE
 
 Write-Output "   ---"
-Write-Output "Copy cryptomines executables to cryptomines-blockchain-gui\"
+Write-Output "Copy cryptomines executables to platinum-blockchain-gui\"
 Write-Output "   ---"
-Copy-Item "dist\daemon" -Destination "..\cryptomines-blockchain-gui\packages\gui\" -Recurse
+Copy-Item "dist\daemon" -Destination "..\platinum-blockchain-gui\packages\gui\" -Recurse
 
 Write-Output "   ---"
 Write-Output "Setup npm packager"
@@ -43,7 +43,7 @@ Write-Output "   ---"
 $Env:NODE_OPTIONS = "--max-old-space-size=3000"
 
 # Change to the GUI directory
-Set-Location -Path "cryptomines-blockchain-gui\packages\gui" -PassThru
+Set-Location -Path "platinum-blockchain-gui\packages\gui" -PassThru
 
 Write-Output "   ---"
 Write-Output "Increase the stack for cryptomines command for (cryptomines plots create) chiapos limitations"
@@ -83,9 +83,9 @@ If ($env:HAS_SECRET) {
 Write-Output "   ---"
 Write-Output "Moving final installers to expected location"
 Write-Output "   ---"
-Copy-Item ".\dist\win-unpacked" -Destination "$env:GITHUB_WORKSPACE\cryptomines-blockchain-gui\Cryptomines-win32-x64" -Recurse
-mkdir "$env:GITHUB_WORKSPACE\cryptomines-blockchain-gui\release-builds\windows-installer" -ea 0
-Copy-Item ".\dist\CryptominesSetup-$packageVersion.exe" -Destination "$env:GITHUB_WORKSPACE\cryptomines-blockchain-gui\release-builds\windows-installer"
+Copy-Item ".\dist\win-unpacked" -Destination "$env:GITHUB_WORKSPACE\platinum-blockchain-gui\Cryptomines-win32-x64" -Recurse
+mkdir "$env:GITHUB_WORKSPACE\platinum-blockchain-gui\release-builds\windows-installer" -ea 0
+Copy-Item ".\dist\CryptominesSetup-$packageVersion.exe" -Destination "$env:GITHUB_WORKSPACE\platinum-blockchain-gui\release-builds\windows-installer"
 
 Write-Output "   ---"
 Write-Output "Windows Installer complete"

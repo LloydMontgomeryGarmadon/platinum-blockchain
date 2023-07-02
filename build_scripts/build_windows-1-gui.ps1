@@ -12,9 +12,9 @@ npm ci
 $Env:Path = $(npm bin) + ";" + $Env:Path
 
 Set-Location -Path "..\..\" -PassThru
-git submodule update --init cryptomines-blockchain-gui
+git submodule update --init platinum-blockchain-gui
 
-Set-Location -Path ".\cryptomines-blockchain-gui" -PassThru
+Set-Location -Path ".\platinum-blockchain-gui" -PassThru
 
 Write-Output "   ---"
 Write-Output "Build GUI npm modules"
@@ -39,7 +39,7 @@ If ($LastExitCode -gt 0){
 # Remove unused packages
 Remove-Item node_modules -Recurse -Force
 
-# Other than `cryptomines-blockchain-gui/package/gui`, all other packages are no longer necessary after build.
+# Other than `platinum-blockchain-gui/package/gui`, all other packages are no longer necessary after build.
 # Since these unused packages make cache unnecessarily fat, unused packages should be removed.
 Write-Output "Remove unused @cryptomines packages to make cache slim"
 Remove-Item packages\api -Recurse -Force

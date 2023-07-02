@@ -122,18 +122,18 @@ jobs:
     - name: Prepare GUI cache
       id: gui-ref
       run: |
-        gui_ref=$(git submodule status cryptomines-blockchain-gui | sed -e 's/^ //g' -e 's/ cryptomines-blockchain-gui.*$//g')
+        gui_ref=$(git submodule status platinum-blockchain-gui | sed -e 's/^ //g' -e 's/ platinum-blockchain-gui.*$//g')
         echo "${gui_ref}"
         echo "GUI_REF=${gui_ref}" >>$GITHUB_OUTPUT
-        echo "rm -rf ./cryptomines-blockchain-gui"
-        rm -rf ./cryptomines-blockchain-gui
+        echo "rm -rf ./platinum-blockchain-gui"
+        rm -rf ./platinum-blockchain-gui
 
     - name: Cache GUI
       uses: actions/cache@v3
       id: cache-gui
       with:
-        path: ./cryptomines-blockchain-gui
-        key: ${{ runner.os }}-rpm-cryptomines-blockchain-gui-${{ steps.gui-ref.outputs.GUI_REF }}
+        path: ./platinum-blockchain-gui
+        key: ${{ runner.os }}-rpm-platinum-blockchain-gui-${{ steps.gui-ref.outputs.GUI_REF }}
 
     - if: steps.cache-gui.outputs.cache-hit != 'true'
       name: Build GUI
@@ -162,8 +162,8 @@ jobs:
         CRYPTOMINES_INSTALLER_VERSION: ${{ steps.version_number.outputs.CRYPTOMINES_INSTALLER_VERSION }}
       run: |
         ls $GITHUB_WORKSPACE/build_scripts/final_installer/
-        sha256sum $GITHUB_WORKSPACE/build_scripts/final_installer/cryptomines-blockchain-${CRYPTOMINES_INSTALLER_VERSION}-1.x86_64.rpm > $GITHUB_WORKSPACE/build_scripts/final_installer/cryptomines-blockchain-${CRYPTOMINES_INSTALLER_VERSION}-1.x86_64.rpm.sha256
-        sha256sum $GITHUB_WORKSPACE/build_scripts/final_installer/cryptomines-blockchain-cli-${CRYPTOMINES_INSTALLER_VERSION}-1.x86_64.rpm > $GITHUB_WORKSPACE/build_scripts/final_installer/cryptomines-blockchain-cli-${CRYPTOMINES_INSTALLER_VERSION}-1.x86_64.rpm.sha256
+        sha256sum $GITHUB_WORKSPACE/build_scripts/final_installer/platinum-blockchain-${CRYPTOMINES_INSTALLER_VERSION}-1.x86_64.rpm > $GITHUB_WORKSPACE/build_scripts/final_installer/platinum-blockchain-${CRYPTOMINES_INSTALLER_VERSION}-1.x86_64.rpm.sha256
+        sha256sum $GITHUB_WORKSPACE/build_scripts/final_installer/platinum-blockchain-cli-${CRYPTOMINES_INSTALLER_VERSION}-1.x86_64.rpm > $GITHUB_WORKSPACE/build_scripts/final_installer/platinum-blockchain-cli-${CRYPTOMINES_INSTALLER_VERSION}-1.x86_64.rpm.sha256
         ls $GITHUB_WORKSPACE/build_scripts/final_installer/
 
     - name: Upload release artifacts
@@ -174,8 +174,8 @@ jobs:
       run: |
         gh release upload \
           $RELEASE_TAG \
-          build_scripts/final_installer/cryptomines-blockchain-${CRYPTOMINES_INSTALLER_VERSION}-1.x86_64.rpm \
-          build_scripts/final_installer/cryptomines-blockchain-cli-${CRYPTOMINES_INSTALLER_VERSION}-1.x86_64.rpm
+          build_scripts/final_installer/platinum-blockchain-${CRYPTOMINES_INSTALLER_VERSION}-1.x86_64.rpm \
+          build_scripts/final_installer/platinum-blockchain-cli-${CRYPTOMINES_INSTALLER_VERSION}-1.x86_64.rpm
 
 
     - name: Mark installer complete
@@ -185,4 +185,4 @@ jobs:
 
     - name: Remove working files to exclude from cache
       run: |
-        rm -rf ./cryptomines-blockchain-gui/packages/gui/daemon
+        rm -rf ./platinum-blockchain-gui/packages/gui/daemon

@@ -76,7 +76,7 @@ legacy_keyring_dependencies = [
 ]
 
 kwargs = dict(
-    name="cryptomines-blockchain",
+    name="platinum-blockchain",
     author="Kopalnie Krypto",
     author_email="kontakt@kopalniekrypto.pl",
     description="Cryptomines blockchain full node, farmer, timelord, and wallet.",
@@ -161,8 +161,8 @@ kwargs = dict(
     long_description_content_type="text/markdown",
     zip_safe=False,
     project_urls={
-        "Source": "https://github.com/LloydMontgomeryGarmadon/cryptomines-blockchain/",
-        "Changelog": "https://github.com/LloydMontgomeryGarmadon/cryptomines-blockchain/blob/main/CHANGELOG.md",
+        "Source": "https://github.com/LloydMontgomeryGarmadon/platinum-blockchain/",
+        "Changelog": "https://github.com/LloydMontgomeryGarmadon/platinum-blockchain/blob/main/CHANGELOG.md",
     },
 )
 

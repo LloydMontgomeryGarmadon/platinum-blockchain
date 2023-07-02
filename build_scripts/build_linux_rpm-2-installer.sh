@@ -43,7 +43,7 @@ if [ "$LAST_EXIT_CODE" -ne 0 ]; then
 fi
 
 # Builds CLI only rpm
-CLI_RPM_BASE="cryptomines-blockchain-cli-$CRYPTOMINES_INSTALLER_VERSION-1.$REDHAT_PLATFORM"
+CLI_RPM_BASE="platinum-blockchain-cli-$CRYPTOMINES_INSTALLER_VERSION-1.$REDHAT_PLATFORM"
 mkdir -p "dist/$CLI_RPM_BASE/opt/cryptomines"
 mkdir -p "dist/$CLI_RPM_BASE/usr/bin"
 cp -r dist/daemon/* "dist/$CLI_RPM_BASE/opt/cryptomines/"
@@ -58,7 +58,7 @@ rvm use ruby-3
 fpm -s dir -t rpm \
   -C "dist/$CLI_RPM_BASE" \
   -p "dist/$CLI_RPM_BASE.rpm" \
-  --name cryptomines-blockchain-cli \
+  --name platinum-blockchain-cli \
   --license Apache-2.0 \
   --version "$CRYPTOMINES_INSTALLER_VERSION" \
   --architecture "$REDHAT_PLATFORM" \
@@ -67,12 +67,12 @@ fpm -s dir -t rpm \
   .
 # CLI only rpm done
 
-cp -r dist/daemon ../cryptomines-blockchain-gui/packages/gui
+cp -r dist/daemon ../platinum-blockchain-gui/packages/gui
 
 # Change to the gui package
-cd ../cryptomines-blockchain-gui/packages/gui || exit 1
+cd ../platinum-blockchain-gui/packages/gui || exit 1
 
-# sets the version for cryptomines-blockchain in package.json
+# sets the version for platinum-blockchain in package.json
 cp package.json package.json.orig
 jq --arg VER "$CRYPTOMINES_INSTALLER_VERSION" '.version=$VER' package.json > temp.json && mv temp.json package.json
 
@@ -83,13 +83,13 @@ if [ "$REDHAT_PLATFORM" = "arm64" ]; then
 fi
 PRODUCT_NAME="cryptomines"
 echo electron-builder build --linux rpm "${OPT_ARCH}" \
-  --config.extraMetadata.name=cryptomines-blockchain \
+  --config.extraMetadata.name=platinum-blockchain \
   --config.productName="${PRODUCT_NAME}" --config.linux.desktop.Name="Cryptomines Blockchain" \
-  --config.rpm.packageName="cryptomines-blockchain"
+  --config.rpm.packageName="platinum-blockchain"
 electron-builder build --linux rpm "${OPT_ARCH}" \
-  --config.extraMetadata.name=cryptomines-blockchain \
+  --config.extraMetadata.name=platinum-blockchain \
   --config.productName="${PRODUCT_NAME}" --config.linux.desktop.Name="Cryptomines Blockchain" \
-  --config.rpm.packageName="cryptomines-blockchain"
+  --config.rpm.packageName="platinum-blockchain"
 LAST_EXIT_CODE=$?
 ls -l dist/linux*-unpacked/resources
 
@@ -101,7 +101,7 @@ if [ "$LAST_EXIT_CODE" -ne 0 ]; then
 	exit $LAST_EXIT_CODE
 fi
 
-GUI_RPM_NAME="cryptomines-blockchain-${CRYPTOMINES_INSTALLER_VERSION}-1.${REDHAT_PLATFORM}.rpm"
+GUI_RPM_NAME="platinum-blockchain-${CRYPTOMINES_INSTALLER_VERSION}-1.${REDHAT_PLATFORM}.rpm"
 mv "dist/${PRODUCT_NAME}-${CRYPTOMINES_INSTALLER_VERSION}.rpm" "../../../build_scripts/dist/${GUI_RPM_NAME}"
 cd ../../../build_scripts || exit 1
 
