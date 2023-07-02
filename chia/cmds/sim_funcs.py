@@ -48,13 +48,13 @@ def create_chia_directory(
     docker_mode: bool,
 ) -> Dict[str, Any]:
     """
-    This function creates a new cryptomines directory and returns a heavily modified config,
+    This function creates a new platinum directory and returns a heavily modified config,
     suitable for use in the simulator.
     """
     from chia.cmds.init_funcs import chia_init
 
     if not chia_root.is_dir() or not Path(chia_root / "config" / "config.yaml").exists():
-        # create cryptomines directories & load config
+        # create platinum directories & load config
         chia_init(chia_root, testnet=True, fix_ssl_permissions=True)
         config: Dict[str, Any] = load_config(chia_root, "config.yaml")
         # apply standard block-tools config.
@@ -126,7 +126,7 @@ def create_chia_directory(
 
 def display_key_info(fingerprint: int, prefix: str) -> None:
     """
-    Display key info for a given fingerprint, similar to the output of `cryptomines keys show`.
+    Display key info for a given fingerprint, similar to the output of `platinum keys show`.
     """
     print(f"Using fingerprint {fingerprint}")
     private_key_and_seed = Keychain().get_private_key_by_fingerprint(fingerprint)
@@ -236,7 +236,7 @@ async def generate_plots(config: Dict[str, Any], root_path: Path, fingerprint: i
     from chia.simulator.start_simulator import PLOT_SIZE, PLOTS
 
     farming_puzzle_hash = decode_puzzle_hash(config["simulator"]["farming_address"])
-    os.environ["CRYPTOMINES_ROOT"] = str(root_path)  # change env variable, to make it match what the daemon would set it to
+    os.environ["PLATINUM_ROOT"] = str(root_path)  # change env variable, to make it match what the daemon would set it to
 
     # create block tools and use local keychain
     bt = BlockTools(
@@ -278,8 +278,8 @@ async def async_config_wizard(
     if fingerprint is None:
         # user cancelled wizard
         return
-    # create cryptomines directory & get config.
-    print("Creating cryptomines directory & config...")
+    # create platinum directory & get config.
+    print("Creating platinum directory & config...")
     config = create_chia_directory(root_path, fingerprint, farming_address, plot_directory, auto_farm, docker_mode)
     # Pre-generate plots by running block_tools init functions.
     print("Please Wait, Generating plots...")
@@ -309,7 +309,7 @@ async def async_config_wizard(
             else:
                 print("Genesis block already exists, exiting.")
             break
-    print(f"\nMake sure your CRYPTOMINES_ROOT Environment Variable is set to: {root_path}")
+    print(f"\nMake sure your PLATINUM_ROOT Environment Variable is set to: {root_path}")
 
 
 def print_coin_record(
@@ -407,7 +407,7 @@ async def print_status(
                         "No fingerprint in config, either rerun 'cdv sim create' "
                         "or use --fingerprint to specify one, skipping key information."
                     )
-            # chain status ( basically cryptomines show -s)
+            # chain status ( basically platinum show -s)
             await print_blockchain_state(node_client, config)
             print("")
             # farming information

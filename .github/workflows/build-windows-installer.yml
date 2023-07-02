@@ -122,9 +122,9 @@ jobs:
         python -m venv ../venv
         source ../venv/Scripts/activate
         pip3 install setuptools_scm
-        CRYPTOMINES_INSTALLER_VERSION=$(python ./build_scripts/installer-version.py)
-        echo "$CRYPTOMINES_INSTALLER_VERSION"
-        echo "CRYPTOMINES_INSTALLER_VERSION=$CRYPTOMINES_INSTALLER_VERSION" >>$GITHUB_OUTPUT
+        PLATINUM_INSTALLER_VERSION=$(python ./build_scripts/installer-version.py)
+        echo "$PLATINUM_INSTALLER_VERSION"
+        echo "PLATINUM_INSTALLER_VERSION=$PLATINUM_INSTALLER_VERSION" >>$GITHUB_OUTPUT
         deactivate
 
     - name: Get latest madmax plotter
@@ -195,7 +195,7 @@ jobs:
 
     - name: Build Windows installer
       env:
-        CRYPTOMINES_INSTALLER_VERSION: ${{ steps.version_number.outputs.CRYPTOMINES_INSTALLER_VERSION }}
+        PLATINUM_INSTALLER_VERSION: ${{ steps.version_number.outputs.PLATINUM_INSTALLER_VERSION }}
         HAS_SECRET: ${{ steps.check_secrets.outputs.HAS_SIGNING_SECRET }}
         CSC_KEY_PASSWORD: ${{ secrets.WIN_CODE_SIGN_PASS }}
       run: |
@@ -207,7 +207,7 @@ jobs:
     - name: Upload Installer to artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: cryptomines-installers-windows-exe-intel
+        name: platinum-installers-windows-exe-intel
         path: ${{ github.workspace }}\platinum-blockchain-gui\release-builds\
 
     - name: Install AWS CLI
@@ -225,18 +225,18 @@ jobs:
 
     - name: Create Checksums
       env:
-        CRYPTOMINES_INSTALLER_VERSION: ${{ steps.version_number.outputs.CRYPTOMINES_INSTALLER_VERSION }}
+        PLATINUM_INSTALLER_VERSION: ${{ steps.version_number.outputs.PLATINUM_INSTALLER_VERSION }}
       run: |
-         certutil.exe -hashfile ${{ github.workspace }}\platinum-blockchain-gui\release-builds\windows-installer\CryptominesSetup-${{ steps.version_number.outputs.CRYPTOMINES_INSTALLER_VERSION }}.exe SHA256 > ${{ github.workspace }}\platinum-blockchain-gui\release-builds\windows-installer\CryptominesSetup-${{ steps.version_number.outputs.CRYPTOMINES_INSTALLER_VERSION }}.exe.sha256
+         certutil.exe -hashfile ${{ github.workspace }}\platinum-blockchain-gui\release-builds\windows-installer\PlatinumSetup-${{ steps.version_number.outputs.PLATINUM_INSTALLER_VERSION }}.exe SHA256 > ${{ github.workspace }}\platinum-blockchain-gui\release-builds\windows-installer\PlatinumSetup-${{ steps.version_number.outputs.PLATINUM_INSTALLER_VERSION }}.exe.sha256
          ls ${{ github.workspace }}\platinum-blockchain-gui\release-builds\windows-installer\
 
     - name: Upload release artifacts
       if: env.RELEASE == 'true'
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        CRYPTOMINES_INSTALLER_VERSION: ${{ steps.version_number.outputs.CRYPTOMINES_INSTALLER_VERSION }}
+        PLATINUM_INSTALLER_VERSION: ${{ steps.version_number.outputs.PLATINUM_INSTALLER_VERSION }}
       run: |
-        gh release upload $env:RELEASE_TAG ${{ github.workspace }}\platinum-blockchain-gui\release-builds\windows-installer\CryptominesSetup-${{ steps.version_number.outputs.CRYPTOMINES_INSTALLER_VERSION }}.exe
+        gh release upload $env:RELEASE_TAG ${{ github.workspace }}\platinum-blockchain-gui\release-builds\windows-installer\PlatinumSetup-${{ steps.version_number.outputs.PLATINUM_INSTALLER_VERSION }}.exe
 
     - name: Mark installer complete
       if: steps.check_secrets.outputs.HAS_GLUE_SECRET && env.FULL_RELEASE == 'true'
@@ -245,7 +245,7 @@ jobs:
             Authorization="Bearer ${{ secrets.GLUE_ACCESS_TOKEN }}"
         }
         $data = @{
-            cryptomines_ref='${{ steps.tag-name.outputs.TAG_NAME }}'
+            platinum_ref='${{ steps.tag-name.outputs.TAG_NAME }}'
         }
         $json = $data | ConvertTo-Json
         $response = Invoke-RestMethod '${{ secrets.GLUE_API_URL }}/api/v1/${{ steps.tag-name.outputs.REPO_NAME }}/${{ steps.tag-name.outputs.TAG_NAME }}/success/build-windows' -Method Post -Body $json -ContentType 'application/json' -Headers $headers
@@ -254,5 +254,5 @@ jobs:
       run: |
         Remove-Item .\platinum-blockchain-gui\packages\gui\dist -Recurse -Force
         Remove-Item .\platinum-blockchain-gui\packages\gui\daemon -Recurse -Force
-        Remove-Item .\platinum-blockchain-gui\Cryptomines-win32-x64 -Recurse -Force
+        Remove-Item .\platinum-blockchain-gui\Platinum-win32-x64 -Recurse -Force
         Remove-Item .\platinum-blockchain-gui\release-builds -Recurse -Force

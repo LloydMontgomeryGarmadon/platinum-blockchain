@@ -614,7 +614,7 @@ def cancel_offer_cmd(wallet_rpc_port: Optional[int], fingerprint: int, id: str, 
 # TODO: accept multiple dbs on commandline
 # TODO: Convert to Path earlier
 def check_wallet_cmd(ctx: click.Context, db_path: str, verbose: bool) -> None:
-    """check, scan, diagnose, fsck Cryptomines Wallet DBs"""
+    """check, scan, diagnose, fsck Platinum Wallet DBs"""
     import asyncio
 
     from chia.cmds.check_wallet_db import scan

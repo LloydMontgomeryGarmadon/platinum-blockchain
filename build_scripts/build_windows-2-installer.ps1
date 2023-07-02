@@ -7,21 +7,21 @@ mkdir build_scripts\win_build
 git status
 git submodule
 
-if (-not (Test-Path env:CRYPTOMINES_INSTALLER_VERSION)) {
-  $env:CRYPTOMINES_INSTALLER_VERSION = '0.0.0'
-  Write-Output "WARNING: No environment variable CRYPTOMINES_INSTALLER_VERSION set. Using 0.0.0"
+if (-not (Test-Path env:PLATINUM_INSTALLER_VERSION)) {
+  $env:PLATINUM_INSTALLER_VERSION = '0.0.0'
+  Write-Output "WARNING: No environment variable PLATINUM_INSTALLER_VERSION set. Using 0.0.0"
 }
-Write-Output "Cryptomines Version is: $env:CRYPTOMINES_INSTALLER_VERSION"
+Write-Output "Platinum Version is: $env:PLATINUM_INSTALLER_VERSION"
 Write-Output "   ---"
 
 Write-Output "   ---"
-Write-Output "Use pyinstaller to create cryptomines .exe's"
+Write-Output "Use pyinstaller to create platinum .exe's"
 Write-Output "   ---"
 $SPEC_FILE = (python -c 'import chia; print(chia.PYINSTALLER_SPEC_PATH)') -join "`n"
 pyinstaller --log-level INFO $SPEC_FILE
 
 Write-Output "   ---"
-Write-Output "Copy cryptomines executables to platinum-blockchain-gui\"
+Write-Output "Copy platinum executables to platinum-blockchain-gui\"
 Write-Output "   ---"
 Copy-Item "dist\daemon" -Destination "..\platinum-blockchain-gui\packages\gui\" -Recurse
 
@@ -46,13 +46,13 @@ $Env:NODE_OPTIONS = "--max-old-space-size=3000"
 Set-Location -Path "platinum-blockchain-gui\packages\gui" -PassThru
 
 Write-Output "   ---"
-Write-Output "Increase the stack for cryptomines command for (cryptomines plots create) chiapos limitations"
+Write-Output "Increase the stack for platinum command for (platinum plots create) chiapos limitations"
 # editbin.exe needs to be in the path
-editbin.exe /STACK:8000000 daemon\cryptomines.exe
+editbin.exe /STACK:8000000 daemon\platinum.exe
 Write-Output "   ---"
 
-$packageVersion = "$env:CRYPTOMINES_INSTALLER_VERSION"
-$packageName = "Cryptomines-$packageVersion"
+$packageVersion = "$env:PLATINUM_INSTALLER_VERSION"
+$packageName = "Platinum-$packageVersion"
 
 Write-Output "packageName is $packageName"
 
@@ -60,14 +60,14 @@ Write-Output "   ---"
 Write-Output "fix version in package.json"
 choco install jq
 cp package.json package.json.orig
-jq --arg VER "$env:CRYPTOMINES_INSTALLER_VERSION" '.version=$VER' package.json > temp.json
+jq --arg VER "$env:PLATINUM_INSTALLER_VERSION" '.version=$VER' package.json > temp.json
 rm package.json
 mv temp.json package.json
 Write-Output "   ---"
 
 Write-Output "   ---"
 Write-Output "electron-builder"
-electron-builder build --win --x64 --config.productName="Cryptomines"
+electron-builder build --win --x64 --config.productName="Platinum"
 Get-ChildItem dist\win-unpacked\resources
 Write-Output "   ---"
 
@@ -75,7 +75,7 @@ If ($env:HAS_SECRET) {
    Write-Output "   ---"
    Write-Output "Verify signature"
    Write-Output "   ---"
-   signtool.exe verify /v /pa .\dist\CryptominesSetup-$packageVersion.exe
+   signtool.exe verify /v /pa .\dist\PlatinumSetup-$packageVersion.exe
    }   Else    {
    Write-Output "Skipping verify signatures - no authorization to install certificates"
 }
@@ -83,9 +83,9 @@ If ($env:HAS_SECRET) {
 Write-Output "   ---"
 Write-Output "Moving final installers to expected location"
 Write-Output "   ---"
-Copy-Item ".\dist\win-unpacked" -Destination "$env:GITHUB_WORKSPACE\platinum-blockchain-gui\Cryptomines-win32-x64" -Recurse
+Copy-Item ".\dist\win-unpacked" -Destination "$env:GITHUB_WORKSPACE\platinum-blockchain-gui\Platinum-win32-x64" -Recurse
 mkdir "$env:GITHUB_WORKSPACE\platinum-blockchain-gui\release-builds\windows-installer" -ea 0
-Copy-Item ".\dist\CryptominesSetup-$packageVersion.exe" -Destination "$env:GITHUB_WORKSPACE\platinum-blockchain-gui\release-builds\windows-installer"
+Copy-Item ".\dist\PlatinumSetup-$packageVersion.exe" -Destination "$env:GITHUB_WORKSPACE\platinum-blockchain-gui\release-builds\windows-installer"
 
 Write-Output "   ---"
 Write-Output "Windows Installer complete"

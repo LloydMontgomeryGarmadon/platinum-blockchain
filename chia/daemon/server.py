@@ -44,13 +44,13 @@ try:
     from aiohttp import WSMsgType, web
     from aiohttp.web_ws import WebSocketResponse
 except ModuleNotFoundError:
-    print("Error: Make sure to run . ./activate from the project folder before starting Cryptomines.")
+    print("Error: Make sure to run . ./activate from the project folder before starting Platinum.")
     quit()
 
 
 log = logging.getLogger(__name__)
 
-service_plotter = "cryptomines_plotter"
+service_plotter = "platinum_plotter"
 
 
 class PlotState(str, Enum):
@@ -68,19 +68,19 @@ class PlotEvent(str, Enum):
 # determine if application is a script file or frozen exe
 if getattr(sys, "frozen", False):
     name_map = {
-        "cryptomines": "cryptomines",
-        "cryptomines_data_layer": "start_data_layer",
-        "cryptomines_data_layer_http": "start_data_layer_http",
-        "cryptomines_wallet": "start_wallet",
-        "cryptomines_full_node": "start_full_node",
-        "cryptomines_harvester": "start_harvester",
-        "cryptomines_farmer": "start_farmer",
-        "cryptomines_introducer": "start_introducer",
-        "cryptomines_timelord": "start_timelord",
-        "cryptomines_timelord_launcher": "timelord_launcher",
-        "cryptomines_full_node_simulator": "start_simulator",
-        "cryptomines_seeder": "start_seeder",
-        "cryptomines_crawler": "start_crawler",
+        "platinum": "platinum",
+        "platinum_data_layer": "start_data_layer",
+        "platinum_data_layer_http": "start_data_layer_http",
+        "platinum_wallet": "start_wallet",
+        "platinum_full_node": "start_full_node",
+        "platinum_harvester": "start_harvester",
+        "platinum_farmer": "start_farmer",
+        "platinum_introducer": "start_introducer",
+        "platinum_timelord": "start_timelord",
+        "platinum_timelord_launcher": "timelord_launcher",
+        "platinum_full_node_simulator": "start_simulator",
+        "platinum_seeder": "start_seeder",
+        "platinum_crawler": "start_crawler",
     }
 
     def executable_for_service(service_name: str) -> str:
@@ -150,7 +150,7 @@ class WebSocketServer:
             self.log.warning(
                 (
                     "Deprecation Warning: Your version of SSL (%s) does not support TLS1.3. "
-                    "A future version of Cryptomines will require TLS1.3."
+                    "A future version of Platinum will require TLS1.3."
                 ),
                 ssl.OPENSSL_VERSION,
             )
@@ -827,11 +827,11 @@ class WebSocketServer:
 
     def _build_plotting_command_args(self, request: Any, ignoreCount: bool, index: int) -> List[str]:
         plotter: str = request.get("plotter", "chiapos")
-        command_args: List[str] = ["cryptomines", "plotters", plotter]
+        command_args: List[str] = ["platinum", "plotters", plotter]
 
         if plotter == "bladebit":
             # plotter command must be either
-            # 'cryptomines plotters bladebit ramplot' or 'cryptomines plotters bladebit diskplot'
+            # 'platinum plotters bladebit ramplot' or 'platinum plotters bladebit diskplot'
             plot_type = request["plot_type"]
             assert plot_type == "diskplot" or plot_type == "ramplot"
             command_args.append(plot_type)
@@ -1140,7 +1140,7 @@ class WebSocketServer:
         if self.webserver is not None:
             self.webserver.close()
             await self.webserver.await_closed()
-        log.info("cryptomines daemon exiting")
+        log.info("platinum daemon exiting")
 
     async def register_service(self, websocket: WebSocketResponse, request: Dict[str, Any]) -> Dict[str, Any]:
         self.log.info(f"Register service {request}")
@@ -1198,8 +1198,8 @@ def plotter_log_path(root_path: Path, id: str):
 def launch_plotter(
     root_path: Path, service_name: str, service_array: List[str], id: str
 ) -> Tuple[subprocess.Popen, Path]:
-    # we need to pass on the possibly altered CRYPTOMINES_ROOT
-    os.environ["CRYPTOMINES_ROOT"] = str(root_path)
+    # we need to pass on the possibly altered PLATINUM_ROOT
+    os.environ["PLATINUM_ROOT"] = str(root_path)
     service_executable = executable_for_service(service_array[0])
 
     # Swap service name with name of executable
@@ -1244,12 +1244,12 @@ def launch_service(root_path: Path, service_command) -> Tuple[subprocess.Popen, 
     """
     Launch a child process.
     """
-    # set up CRYPTOMINES_ROOT
+    # set up PLATINUM_ROOT
     # invoke correct script
     # save away PID
 
-    # we need to pass on the possibly altered CRYPTOMINES_ROOT
-    os.environ["CRYPTOMINES_ROOT"] = str(root_path)
+    # we need to pass on the possibly altered PLATINUM_ROOT
+    os.environ["PLATINUM_ROOT"] = str(root_path)
 
     # Insert proper e
     service_array = service_command.split()
@@ -1261,7 +1261,7 @@ def launch_service(root_path: Path, service_command) -> Tuple[subprocess.Popen, 
         startupinfo = subprocess.STARTUPINFO()
         startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 
-    log.debug(f"Launching service {service_array} with CRYPTOMINES_ROOT: {os.environ['CRYPTOMINES_ROOT']}")
+    log.debug(f"Launching service {service_array} with PLATINUM_ROOT: {os.environ['PLATINUM_ROOT']}")
 
     # CREATE_NEW_PROCESS_GROUP allows graceful shutdown on windows, by CTRL_BREAK_EVENT signal
     if sys.platform == "win32" or sys.platform == "cygwin":
@@ -1348,7 +1348,7 @@ async def async_run_daemon(root_path: Path, wait_for_unlock: bool = False) -> in
     # since it might be necessary to wait for the GUI to unlock the keyring first.
     chia_init(root_path, should_check_keys=(not wait_for_unlock))
     config = load_config(root_path, "config.yaml")
-    setproctitle("cryptomines_daemon")
+    setproctitle("platinum_daemon")
     initialize_service_logging("daemon", config)
     crt_path = root_path / config["daemon_ssl"]["private_crt"]
     key_path = root_path / config["daemon_ssl"]["private_key"]

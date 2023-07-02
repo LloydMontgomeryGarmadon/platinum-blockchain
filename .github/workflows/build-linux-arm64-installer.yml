@@ -63,7 +63,7 @@ jobs:
         python3 -m venv ../venv
         . ../venv/bin/activate
         pip3 install setuptools_scm
-        echo "CRYPTOMINES_INSTALLER_VERSION=$(python3 ./build_scripts/installer-version.py)" >> $GITHUB_OUTPUT
+        echo "PLATINUM_INSTALLER_VERSION=$(python3 ./build_scripts/installer-version.py)" >> $GITHUB_OUTPUT
         deactivate
 
     - name: Test for secrets access
@@ -145,7 +145,7 @@ jobs:
 
     - name: Build arm64 .deb package
       env:
-        CRYPTOMINES_INSTALLER_VERSION: ${{ steps.version_number.outputs.CRYPTOMINES_INSTALLER_VERSION }}
+        PLATINUM_INSTALLER_VERSION: ${{ steps.version_number.outputs.PLATINUM_INSTALLER_VERSION }}
       run: |
         ldd --version
         cd ./build_scripts
@@ -154,34 +154,34 @@ jobs:
     - name: Upload Linux artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: cryptomines-installers-linux-deb-arm64
+        name: platinum-installers-linux-deb-arm64
         path: ${{ github.workspace }}/build_scripts/final_installer/
 
     - name: Create Checksums
       if: env.FULL_RELEASE == 'true' || github.ref == 'refs/heads/main'
       env:
-        CRYPTOMINES_INSTALLER_VERSION: ${{ steps.version_number.outputs.CRYPTOMINES_INSTALLER_VERSION }}
+        PLATINUM_INSTALLER_VERSION: ${{ steps.version_number.outputs.PLATINUM_INSTALLER_VERSION }}
       run: |
         ls $GITHUB_WORKSPACE/build_scripts/final_installer/
-        sha256sum $GITHUB_WORKSPACE/build_scripts/final_installer/platinum-blockchain_${CRYPTOMINES_INSTALLER_VERSION}_arm64.deb > $GITHUB_WORKSPACE/build_scripts/final_installer/platinum-blockchain_${CRYPTOMINES_INSTALLER_VERSION}_arm64.deb.sha256
-        sha256sum $GITHUB_WORKSPACE/build_scripts/final_installer/platinum-blockchain-cli_${CRYPTOMINES_INSTALLER_VERSION}-1_arm64.deb > $GITHUB_WORKSPACE/build_scripts/final_installer/platinum-blockchain-cli_${CRYPTOMINES_INSTALLER_VERSION}-1_arm64.deb.sha256
+        sha256sum $GITHUB_WORKSPACE/build_scripts/final_installer/platinum-blockchain_${PLATINUM_INSTALLER_VERSION}_arm64.deb > $GITHUB_WORKSPACE/build_scripts/final_installer/platinum-blockchain_${PLATINUM_INSTALLER_VERSION}_arm64.deb.sha256
+        sha256sum $GITHUB_WORKSPACE/build_scripts/final_installer/platinum-blockchain-cli_${PLATINUM_INSTALLER_VERSION}-1_arm64.deb > $GITHUB_WORKSPACE/build_scripts/final_installer/platinum-blockchain-cli_${PLATINUM_INSTALLER_VERSION}-1_arm64.deb.sha256
         ls $GITHUB_WORKSPACE/build_scripts/final_installer/
 
     - name: Upload release artifacts
       if: env.RELEASE == 'true'
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        CRYPTOMINES_INSTALLER_VERSION: ${{ steps.version_number.outputs.CRYPTOMINES_INSTALLER_VERSION }}
+        PLATINUM_INSTALLER_VERSION: ${{ steps.version_number.outputs.PLATINUM_INSTALLER_VERSION }}
       run: |
         gh release upload \
           $RELEASE_TAG \
-          build_scripts/final_installer/platinum-blockchain_${CRYPTOMINES_INSTALLER_VERSION}_arm64.deb \
-          build_scripts/final_installer/platinum-blockchain-cli_${CRYPTOMINES_INSTALLER_VERSION}-1_arm64.deb
+          build_scripts/final_installer/platinum-blockchain_${PLATINUM_INSTALLER_VERSION}_arm64.deb \
+          build_scripts/final_installer/platinum-blockchain-cli_${PLATINUM_INSTALLER_VERSION}-1_arm64.deb
 
     - name: Mark installer complete
       if: steps.check_secrets.outputs.HAS_GLUE_SECRET && env.FULL_RELEASE == 'true'
       run: |
-        curl -s -XPOST -H "Authorization: Bearer ${{ secrets.GLUE_ACCESS_TOKEN }}" --data '{"cryptomines_ref": "${{ steps.tag-name.outputs.TAG_NAME }}"}' ${{ secrets.GLUE_API_URL }}/api/v1/${{ steps.tag-name.outputs.REPO_NAME }}/${{ steps.tag-name.outputs.TAG_NAME }}/success/build-arm
+        curl -s -XPOST -H "Authorization: Bearer ${{ secrets.GLUE_ACCESS_TOKEN }}" --data '{"platinum_ref": "${{ steps.tag-name.outputs.TAG_NAME }}"}' ${{ secrets.GLUE_API_URL }}/api/v1/${{ steps.tag-name.outputs.REPO_NAME }}/${{ steps.tag-name.outputs.TAG_NAME }}/success/build-arm
 
     - name: Clean up on self hosted runner
       run: |

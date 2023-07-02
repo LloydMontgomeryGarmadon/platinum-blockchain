@@ -16,7 +16,7 @@ import click
     is_flag=True,
     help="Attempt to fix SSL certificate/key file permissions",
 )
-@click.option("--testnet", is_flag=True, help="Configure this cryptomines install to connect to the testnet")
+@click.option("--testnet", is_flag=True, help="Configure this platinum install to connect to the testnet")
 @click.option("--set-passphrase", "-s", is_flag=True, help="Protect your keyring with a passphrase")
 @click.option(
     "--v1-db",
@@ -37,9 +37,9 @@ def init_cmd(
 
     \b
     Follow these steps to create new certificates for a remote harvester:
-    - Make a copy of your Farming Machine CA directory: ~/.cryptomines/[version]/config/ssl/ca
-    - Shut down all cryptomines daemon processes with `cryptomines stop all -d`
-    - Run `cryptomines init -c [directory]` on your remote harvester,
+    - Make a copy of your Farming Machine CA directory: ~/.platinum/[version]/config/ssl/ca
+    - Shut down all platinum daemon processes with `platinum stop all -d`
+    - Run `platinum init -c [directory]` on your remote harvester,
       where [directory] is the the copy of your Farming Machine CA directory
     - Get more details on remote harvester on Chia wiki:
       https://github.com/Chia-Network/platinum-blockchain/wiki/Farming-on-many-machines

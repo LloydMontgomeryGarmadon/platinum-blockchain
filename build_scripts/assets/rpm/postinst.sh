@@ -3,5 +3,5 @@
 
 set -e
 
-ln -s /opt/cryptomines/resources/app.asar.unpacked/daemon/cryptomines /usr/bin/cryptomines || true
-ln -s /opt/cryptomines/platinum-blockchain /usr/bin/platinum-blockchain || true
+ln -s /opt/platinum/resources/app.asar.unpacked/daemon/platinum /usr/bin/platinum || true
+ln -s /opt/platinum/platinum-blockchain /usr/bin/platinum-blockchain || true

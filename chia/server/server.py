@@ -639,7 +639,7 @@ class ChiaServer:
         ip = None
         port = self._port
 
-        # Use cryptomines's service first.
+        # Use platinum's service first.
         try:
             timeout = ClientTimeout(total=15)
             async with ClientSession(timeout=timeout) as session:

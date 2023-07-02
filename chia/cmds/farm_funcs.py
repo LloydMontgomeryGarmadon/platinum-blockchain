@@ -114,7 +114,7 @@ async def summary(
         print("Farming")
 
     if amounts is not None:
-        print(f"Total cryptomines farmed: {amounts['farmed_amount'] / units['chia']}")
+        print(f"Total platinum farmed: {amounts['farmed_amount'] / units['chia']}")
         print(f"User transaction fees: {amounts['fee_amount'] / units['chia']}")
         print(f"Block rewards: {(amounts['farmer_reward_amount'] + amounts['pool_reward_amount']) / units['chia']}")
         print(f"Last height farmed: {amounts['last_height_farmed']}")
@@ -180,8 +180,8 @@ async def summary(
 
     if amounts is None:
         if wallet_not_running:
-            print("For details on farmed rewards and fees you should run 'cryptomines start wallet' and 'cryptomines wallet show'")
+            print("For details on farmed rewards and fees you should run 'platinum start wallet' and 'platinum wallet show'")
         elif wallet_not_ready:
-            print("For details on farmed rewards and fees you should run 'cryptomines wallet show'")
+            print("For details on farmed rewards and fees you should run 'platinum wallet show'")
     else:
-        print("Note: log into your key using 'cryptomines wallet show' to see rewards for each key")
+        print("Note: log into your key using 'platinum wallet show' to see rewards for each key")

@@ -17,11 +17,11 @@ fi
 # If the env variable NOTARIZE and the username and password variables are
 # set, this will attempt to Notarize the signed DMG
 
-if [ ! "$CRYPTOMINES_INSTALLER_VERSION" ]; then
-	echo "WARNING: No environment variable CRYPTOMINES_INSTALLER_VERSION set. Using 0.0.0."
-	CRYPTOMINES_INSTALLER_VERSION="0.0.0"
+if [ ! "$PLATINUM_INSTALLER_VERSION" ]; then
+	echo "WARNING: No environment variable PLATINUM_INSTALLER_VERSION set. Using 0.0.0."
+	PLATINUM_INSTALLER_VERSION="0.0.0"
 fi
-echo "Cryptomines Installer Version is: $CRYPTOMINES_INSTALLER_VERSION"
+echo "Platinum Installer Version is: $PLATINUM_INSTALLER_VERSION"
 
 echo "Installing npm and electron packagers"
 cd npm_linux || exit 1
@@ -43,11 +43,11 @@ if [ "$LAST_EXIT_CODE" -ne 0 ]; then
 fi
 
 # Builds CLI only rpm
-CLI_RPM_BASE="platinum-blockchain-cli-$CRYPTOMINES_INSTALLER_VERSION-1.$REDHAT_PLATFORM"
-mkdir -p "dist/$CLI_RPM_BASE/opt/cryptomines"
+CLI_RPM_BASE="platinum-blockchain-cli-$PLATINUM_INSTALLER_VERSION-1.$REDHAT_PLATFORM"
+mkdir -p "dist/$CLI_RPM_BASE/opt/platinum"
 mkdir -p "dist/$CLI_RPM_BASE/usr/bin"
-cp -r dist/daemon/* "dist/$CLI_RPM_BASE/opt/cryptomines/"
-ln -s ../../opt/cryptomines/cryptomines "dist/$CLI_RPM_BASE/usr/bin/cryptomines"
+cp -r dist/daemon/* "dist/$CLI_RPM_BASE/opt/platinum/"
+ln -s ../../opt/platinum/platinum "dist/$CLI_RPM_BASE/usr/bin/platinum"
 # This is built into the base build image
 # shellcheck disable=SC1091
 . /etc/profile.d/rvm.sh
@@ -60,9 +60,9 @@ fpm -s dir -t rpm \
   -p "dist/$CLI_RPM_BASE.rpm" \
   --name platinum-blockchain-cli \
   --license Apache-2.0 \
-  --version "$CRYPTOMINES_INSTALLER_VERSION" \
+  --version "$PLATINUM_INSTALLER_VERSION" \
   --architecture "$REDHAT_PLATFORM" \
-  --description "Cryptomines is a modern cryptocurrency built from scratch, designed to be efficient, decentralized, and secure." \
+  --description "Platinum is a modern cryptocurrency built from scratch, designed to be efficient, decentralized, and secure." \
   --depends /usr/lib64/libcrypt.so.1 \
   .
 # CLI only rpm done
@@ -74,21 +74,21 @@ cd ../platinum-blockchain-gui/packages/gui || exit 1
 
 # sets the version for platinum-blockchain in package.json
 cp package.json package.json.orig
-jq --arg VER "$CRYPTOMINES_INSTALLER_VERSION" '.version=$VER' package.json > temp.json && mv temp.json package.json
+jq --arg VER "$PLATINUM_INSTALLER_VERSION" '.version=$VER' package.json > temp.json && mv temp.json package.json
 
 echo "Building Linux(rpm) Electron app"
 OPT_ARCH="--x64"
 if [ "$REDHAT_PLATFORM" = "arm64" ]; then
   OPT_ARCH="--arm64"
 fi
-PRODUCT_NAME="cryptomines"
+PRODUCT_NAME="platinum"
 echo electron-builder build --linux rpm "${OPT_ARCH}" \
   --config.extraMetadata.name=platinum-blockchain \
-  --config.productName="${PRODUCT_NAME}" --config.linux.desktop.Name="Cryptomines Blockchain" \
+  --config.productName="${PRODUCT_NAME}" --config.linux.desktop.Name="Platinum Blockchain" \
   --config.rpm.packageName="platinum-blockchain"
 electron-builder build --linux rpm "${OPT_ARCH}" \
   --config.extraMetadata.name=platinum-blockchain \
-  --config.productName="${PRODUCT_NAME}" --config.linux.desktop.Name="Cryptomines Blockchain" \
+  --config.productName="${PRODUCT_NAME}" --config.linux.desktop.Name="Platinum Blockchain" \
   --config.rpm.packageName="platinum-blockchain"
 LAST_EXIT_CODE=$?
 ls -l dist/linux*-unpacked/resources
@@ -101,8 +101,8 @@ if [ "$LAST_EXIT_CODE" -ne 0 ]; then
 	exit $LAST_EXIT_CODE
 fi
 
-GUI_RPM_NAME="platinum-blockchain-${CRYPTOMINES_INSTALLER_VERSION}-1.${REDHAT_PLATFORM}.rpm"
-mv "dist/${PRODUCT_NAME}-${CRYPTOMINES_INSTALLER_VERSION}.rpm" "../../../build_scripts/dist/${GUI_RPM_NAME}"
+GUI_RPM_NAME="platinum-blockchain-${PLATINUM_INSTALLER_VERSION}-1.${REDHAT_PLATFORM}.rpm"
+mv "dist/${PRODUCT_NAME}-${PLATINUM_INSTALLER_VERSION}.rpm" "../../../build_scripts/dist/${GUI_RPM_NAME}"
 cd ../../../build_scripts || exit 1
 
 echo "Create final installer"

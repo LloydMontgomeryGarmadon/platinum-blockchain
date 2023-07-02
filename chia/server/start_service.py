@@ -233,7 +233,7 @@ class Service(Generic[_T_RpcServiceProtocol, _T_ApiProtocol]):
     async def setup_process_global_state(self) -> None:
         # Being async forces this to be run from within an active event loop as is
         # needed for the signal handler setup.
-        proctitle_name = f"cryptomines_{self._service_name}"
+        proctitle_name = f"platinum_{self._service_name}"
         setproctitle(proctitle_name)
 
         global main_pid
@@ -294,7 +294,7 @@ class Service(Generic[_T_RpcServiceProtocol, _T_ApiProtocol]):
 
         self._log.info("Waiting for socket to be closed (if opened)")
 
-        self._log.info("Waiting for CryptominesServer to be closed")
+        self._log.info("Waiting for PlatinumServer to be closed")
         await self._server.await_closed()
 
         if self.rpc_server:

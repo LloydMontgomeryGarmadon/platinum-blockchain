@@ -321,7 +321,7 @@ async def send(args: dict, wallet_client: WalletRpcClient, fingerprint: int) -> 
             return None
 
     print("Transaction not yet submitted to nodes")
-    print(f"To get status, use command: cryptomines wallet get_transaction -f {fingerprint} -tx 0x{tx_id}")
+    print(f"To get status, use command: platinum wallet get_transaction -f {fingerprint} -tx 0x{tx_id}")
 
 
 async def get_address(args: dict, wallet_client: WalletRpcClient, fingerprint: int) -> None:
@@ -524,7 +524,7 @@ async def make_offer(args: dict, wallet_client: WalletRpcClient, fingerprint: in
                         file.write(offer.to_bech32())
                         print(f"Created offer with ID {trade_record.trade_id}")
                         print(
-                            f"Use cryptomines wallet get_offers --id {trade_record.trade_id} -f {fingerprint} to view status"
+                            f"Use platinum wallet get_offers --id {trade_record.trade_id} -f {fingerprint} to view status"
                         )
                     else:
                         print("Error creating offer")
@@ -749,7 +749,7 @@ async def take_offer(args: dict, wallet_client: WalletRpcClient, fingerprint: in
         if confirmation in ["y", "yes"]:
             trade_record = await wallet_client.take_offer(offer, fee=fee)
             print(f"Accepted offer with ID {trade_record.trade_id}")
-            print(f"Use cryptomines wallet get_offers --id {trade_record.trade_id} -f {fingerprint} to view its status")
+            print(f"Use platinum wallet get_offers --id {trade_record.trade_id} -f {fingerprint} to view its status")
 
 
 async def cancel_offer(args: dict, wallet_client: WalletRpcClient, fingerprint: int) -> None:
@@ -765,7 +765,7 @@ async def cancel_offer(args: dict, wallet_client: WalletRpcClient, fingerprint: 
         await wallet_client.cancel_offer(id, secure=secure, fee=fee)
         print(f"Cancelled offer with ID {trade_record.trade_id}")
         if secure:
-            print(f"Use cryptomines wallet get_offers --id {trade_record.trade_id} -f {fingerprint} to view cancel status")
+            print(f"Use platinum wallet get_offers --id {trade_record.trade_id} -f {fingerprint} to view cancel status")
 
 
 def wallet_coin_unit(typ: WalletType, address_prefix: str) -> Tuple[str, int]:
@@ -1225,7 +1225,7 @@ async def send_notification(args: Dict, wallet_client: WalletRpcClient, fingerpr
     tx = await wallet_client.send_notification(address, message, amount, fee)
 
     print("Notification sent successfully.")
-    print(f"To get status, use command: cryptomines wallet get_transaction -f {fingerprint} -tx 0x{tx.name}")
+    print(f"To get status, use command: platinum wallet get_transaction -f {fingerprint} -tx 0x{tx.name}")
 
 
 async def get_notifications(args: Dict, wallet_client: WalletRpcClient, fingerprint: int) -> None:

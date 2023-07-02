@@ -3,5 +3,5 @@
 
 set -e
 
-unlink /usr/bin/cryptomines || true
+unlink /usr/bin/platinum || true
 unlink /usr/bin/platinum-blockchain || true

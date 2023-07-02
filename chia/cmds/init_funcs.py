@@ -67,7 +67,7 @@ def check_keys(new_root: Path, keychain: Optional[Keychain] = None) -> None:
         keychain = Keychain()
     all_sks = keychain.get_all_private_keys()
     if len(all_sks) == 0:
-        print("No keys are present in the keychain. Generate them with 'cryptomines keys generate'")
+        print("No keys are present in the keychain. Generate them with 'platinum keys generate'")
         return None
 
     with lock_and_load_config(new_root, "config.yaml") as config:
@@ -327,13 +327,13 @@ def chia_init(
     protected Keychain. When launching the daemon from the GUI, we want the GUI to
     handle unlocking the keychain.
     """
-    chia_root = os.environ.get("CRYPTOMINES_ROOT", None)
+    chia_root = os.environ.get("PLATINUM_ROOT", None)
     if chia_root is not None:
-        print(f"CRYPTOMINES_ROOT is set to {chia_root}")
+        print(f"PLATINUM_ROOT is set to {chia_root}")
 
-    print(f"Cryptomines directory {root_path}")
+    print(f"Platinum directory {root_path}")
     if root_path.is_dir() and Path(root_path / "config" / "config.yaml").exists():
-        # This is reached if CRYPTOMINES_ROOT is set, or if user has run cryptomines init twice
+        # This is reached if PLATINUM_ROOT is set, or if user has run platinum init twice
         # before a new update.
         if testnet:
             configure(
@@ -416,6 +416,6 @@ def chia_init(
             pass
 
     print("")
-    print("To see your keys, run 'cryptomines keys show --show-mnemonic-seed'")
+    print("To see your keys, run 'platinum keys show --show-mnemonic-seed'")
 
     return 0

@@ -36,14 +36,14 @@ jobs:
           - runs-on: macos-10.14
             name: intel
             file-suffix: ""
-            mac-package-name: "Cryptomines-darwin-x64"
+            mac-package-name: "Platinum-darwin-x64"
             glue-name: "build-macos"
             bladebit-suffix: macos-x86-64.tar.gz
 # To do: Fix Mac m1 build
 #          - runs-on: [MacOS, ARM64]
 #            name: m1
 #            file-suffix: "-arm64"
-#            mac-package-name: "Cryptomines-darwin-arm64"
+#            mac-package-name: "Platinum-darwin-arm64"
 #            glue-name: "build-mac-m1"
 #            bladebit-suffix: macos-arm64.tar.gz
 
@@ -93,7 +93,7 @@ jobs:
           python3 -m venv ../venv
           . ../venv/bin/activate
           pip install setuptools_scm
-          echo "CRYPTOMINES_INSTALLER_VERSION=$(python3 ./build_scripts/installer-version.py)" >> $GITHUB_OUTPUT
+          echo "PLATINUM_INSTALLER_VERSION=$(python3 ./build_scripts/installer-version.py)" >> $GITHUB_OUTPUT
           deactivate
 
       - name: Setup Python environment
@@ -187,7 +187,7 @@ jobs:
 
       - name: Build MacOS DMG
         env:
-          CRYPTOMINES_INSTALLER_VERSION: ${{ steps.version_number.outputs.CRYPTOMINES_INSTALLER_VERSION }}
+          PLATINUM_INSTALLER_VERSION: ${{ steps.version_number.outputs.PLATINUM_INSTALLER_VERSION }}
           NOTARIZE: ${{ steps.check_secrets.outputs.HAS_APPLE_SECRET }}
           APPLE_NOTARIZE_USERNAME: "${{ secrets.APPLE_NOTARIZE_USERNAME }}"
           APPLE_NOTARIZE_PASSWORD: "${{ secrets.APPLE_NOTARIZE_PASSWORD }}"
@@ -200,7 +200,7 @@ jobs:
       - name: Upload MacOS artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: cryptomines-installers-macos-dmg-${{ matrix.os.name }}
+          name: platinum-installers-macos-dmg-${{ matrix.os.name }}
           path: ${{ github.workspace }}/build_scripts/final_installer/
 
       - name: Install AWS CLI
@@ -215,13 +215,13 @@ jobs:
       - name: Create Checksums
         run: |
           ls
-          shasum -a 256 ${{ github.workspace }}/build_scripts/final_installer/Cryptomines-${{ steps.version_number.outputs.CRYPTOMINES_INSTALLER_VERSION }}${{ matrix.os.file-suffix }}.dmg > ${{ github.workspace }}/build_scripts/final_installer/Cryptomines-${{ steps.version_number.outputs.CRYPTOMINES_INSTALLER_VERSION }}${{ matrix.os.file-suffix }}.dmg.sha256
+          shasum -a 256 ${{ github.workspace }}/build_scripts/final_installer/Platinum-${{ steps.version_number.outputs.PLATINUM_INSTALLER_VERSION }}${{ matrix.os.file-suffix }}.dmg > ${{ github.workspace }}/build_scripts/final_installer/Platinum-${{ steps.version_number.outputs.PLATINUM_INSTALLER_VERSION }}${{ matrix.os.file-suffix }}.dmg.sha256
 
       - name: Upload release artifacts
         if: env.RELEASE == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CRYPTOMINES_INSTALLER_VERSION: ${{ steps.version_number.outputs.CRYPTOMINES_INSTALLER_VERSION }}
+          PLATINUM_INSTALLER_VERSION: ${{ steps.version_number.outputs.PLATINUM_INSTALLER_VERSION }}
         run: |
           gh release upload \
             $RELEASE_TAG \
@@ -230,7 +230,7 @@ jobs:
       - name: Mark installer complete
         if: steps.check_secrets.outputs.HAS_GLUE_SECRET && env.FULL_RELEASE == 'true'
         run: |
-          curl -s -XPOST -H "Authorization: Bearer ${{ secrets.GLUE_ACCESS_TOKEN }}" --data '{"cryptomines_ref": "${{ steps.tag-name.outputs.TAG_NAME }}"}' ${{ secrets.GLUE_API_URL }}/api/v1/${{ steps.tag-name.outputs.REPO_NAME }}/${{ steps.tag-name.outputs.TAG_NAME }}/success/${{ matrix.os.glue-name }}
+          curl -s -XPOST -H "Authorization: Bearer ${{ secrets.GLUE_ACCESS_TOKEN }}" --data '{"platinum_ref": "${{ steps.tag-name.outputs.TAG_NAME }}"}' ${{ secrets.GLUE_API_URL }}/api/v1/${{ steps.tag-name.outputs.REPO_NAME }}/${{ steps.tag-name.outputs.TAG_NAME }}/success/${{ matrix.os.glue-name }}
 
       # We want to delete this no matter what happened in the previous steps (failures, success, etc)
       - name: Delete signing keychain

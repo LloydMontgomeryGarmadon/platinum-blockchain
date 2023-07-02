@@ -28,8 +28,8 @@ from chia.util.keyring_wrapper import KeyringWrapper
 from chia.util.streamable import Streamable, streamable
 
 CURRENT_KEY_VERSION = "1.8"
-DEFAULT_USER = f"user-cryptomines-{CURRENT_KEY_VERSION}"  # e.g. user-cryptomines-1.8
-DEFAULT_SERVICE = f"cryptomines-{DEFAULT_USER}"  # e.g. cryptomines-user-cryptomines-1.8
+DEFAULT_USER = f"user-platinum-{CURRENT_KEY_VERSION}"  # e.g. user-platinum-1.8
+DEFAULT_SERVICE = f"platinum-{DEFAULT_USER}"  # e.g. platinum-user-platinum-1.8
 MAX_KEYS = 100
 MIN_PASSPHRASE_LEN = 8
 

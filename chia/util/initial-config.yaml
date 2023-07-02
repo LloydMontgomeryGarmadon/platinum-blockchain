@@ -141,7 +141,7 @@ seeder:
   other_peers_port: 44411
   # This will override the default full_node.peer_connect_timeout for the crawler full node
   peer_connect_timeout: 2
-  # Path to crawler DB. Defaults to $CRYPTOMINES_ROOT/crawler.db
+  # Path to crawler DB. Defaults to $PLATINUM_ROOT/crawler.db
   crawler_db_path: "crawler.db"
   # Peers used for the initial run.
   bootstrap_peers:
@@ -398,7 +398,7 @@ full_node:
   weight_proof_timeout: &weight_proof_timeout 360
 
   # when enabled, the full node will print a pstats profile to the root_dir/profile every second
-  # analyze with cryptomines/utils/profiler.py
+  # analyze with platinum/utils/profiler.py
   enable_profiler: False
 
   enable_memory_profiler: False
@@ -437,7 +437,7 @@ full_node:
     host: *self_hostname
     port: 44413
   introducer_peer:
-    host: introducer.platinumblockchain.pl # Cryptomines AWS introducer IPv4/IPv6
+    host: introducer.platinumblockchain.pl # Platinum AWS introducer IPv4/IPv6
     port: 44412
   wallet_peer:
     host: *self_hostname
@@ -661,7 +661,7 @@ simulator:
   farming_address:
 
   # the directory used to save plots
-  # for the plot directory below the final directory will be: ~/.cryptomines/simulator/plots
+  # for the plot directory below the final directory will be: ~/.platinum/simulator/plots
   plot_directory: simulator/plots
 
   # Should we use real time in the simulated chain?

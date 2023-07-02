@@ -15,7 +15,7 @@ if ($d)
 
 if ([Environment]::Is64BitOperatingSystem -eq $false)
 {
-    Write-Output "Cryptomines requires a 64-bit Windows installation"
+    Write-Output "Platinum requires a 64-bit Windows installation"
     Exit 1
 }
 
@@ -118,7 +118,7 @@ if ($p)
 }
 
 Write-Output ""
-Write-Output "Cryptomines blockchain .\Install.ps1 complete."
+Write-Output "Platinum blockchain .\Install.ps1 complete."
 Write-Output "For assistance join us on Discord in the #support chat channel:"
 Write-Output "https://discord.gg/chia"
 Write-Output ""
@@ -127,4 +127,4 @@ Write-Output "https://github.com/Chia-Network/platinum-blockchain/wiki/Quick-Sta
 Write-Output ""
 Write-Output "To install the GUI run '.\venv\scripts\Activate.ps1' then '.\Install-gui.ps1'."
 Write-Output ""
-Write-Output "Type '.\venv\Scripts\Activate.ps1' and then 'cryptomines init' to begin."
+Write-Output "Type '.\venv\Scripts\Activate.ps1' and then 'platinum init' to begin."

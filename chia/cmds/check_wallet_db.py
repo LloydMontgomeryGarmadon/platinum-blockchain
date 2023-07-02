@@ -18,8 +18,8 @@ from chia.wallet.util.wallet_types import WalletType
 
 help_text = """
 \b
-    The purpose of this command is find potential issues in Cryptomines wallet databases.
-    The core cryptomines client currently uses sqlite to store the wallet databases, one database per key.
+    The purpose of this command is find potential issues in Platinum wallet databases.
+    The core platinum client currently uses sqlite to store the wallet databases, one database per key.
 \b
     Guide to warning diagnostics:
     ----------------------------

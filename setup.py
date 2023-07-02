@@ -79,11 +79,11 @@ kwargs = dict(
     name="platinum-blockchain",
     author="Matthew Crazy",
     author_email="crazymathew29@gmail.com",
-    description="Cryptomines blockchain full node, farmer, timelord, and wallet.",
+    description="Platinum blockchain full node, farmer, timelord, and wallet.",
     url="https://platinumblockchain.pl/",
     license="Apache License",
     python_requires=">=3.7, <4",
-    keywords="cryptomines blockchain node",
+    keywords="platinum blockchain node",
     install_requires=dependencies,
     extras_require=dict(
         dev=dev_dependencies,
@@ -133,21 +133,21 @@ kwargs = dict(
     ],
     entry_points={
         "console_scripts": [
-            "cryptomines = chia.cmds.chia:main",
-            "cryptomines_daemon = chia.daemon.server:main",
-            "cryptomines_wallet = chia.server.start_wallet:main",
-            "cryptomines_full_node = chia.server.start_full_node:main",
-            "cryptomines_harvester = chia.server.start_harvester:main",
-            "cryptomines_farmer = chia.server.start_farmer:main",
-            "cryptomines_introducer = chia.server.start_introducer:main",
-            "cryptomines_crawler = chia.seeder.start_crawler:main",
-            "cryptomines_seeder = chia.seeder.dns_server:main",
-            "cryptomines_timelord = chia.server.start_timelord:main",
-            "cryptomines_timelord_launcher = chia.timelord.timelord_launcher:main",
-            "cryptomines_full_node_simulator = chia.simulator.start_simulator:main",
-            "cryptomines_data_layer = chia.server.start_data_layer:main",
-            "cryptomines_data_layer_http = chia.data_layer.data_layer_server:main",
-            "cryptomines_data_layer_s3_plugin = chia.data_layer.s3_plugin_service:run_server",
+            "platinum = chia.cmds.chia:main",
+            "platinum_daemon = chia.daemon.server:main",
+            "platinum_wallet = chia.server.start_wallet:main",
+            "platinum_full_node = chia.server.start_full_node:main",
+            "platinum_harvester = chia.server.start_harvester:main",
+            "platinum_farmer = chia.server.start_farmer:main",
+            "platinum_introducer = chia.server.start_introducer:main",
+            "platinum_crawler = chia.seeder.start_crawler:main",
+            "platinum_seeder = chia.seeder.dns_server:main",
+            "platinum_timelord = chia.server.start_timelord:main",
+            "platinum_timelord_launcher = chia.timelord.timelord_launcher:main",
+            "platinum_full_node_simulator = chia.simulator.start_simulator:main",
+            "platinum_data_layer = chia.server.start_data_layer:main",
+            "platinum_data_layer_http = chia.data_layer.data_layer_server:main",
+            "platinum_data_layer_s3_plugin = chia.data_layer.s3_plugin_service:run_server",
         ]
     },
     package_data={
@@ -170,5 +170,5 @@ if "setup_file" in sys.modules:
     # include dev deps in regular deps when run in snyk
     dependencies.extend(dev_dependencies)
 
-if len(os.environ.get("CRYPTOMINES_SKIP_SETUP", "")) < 1:
+if len(os.environ.get("PLATINUM_SKIP_SETUP", "")) < 1:
     setup(**kwargs)  # type: ignore
